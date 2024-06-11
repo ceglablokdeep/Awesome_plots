@@ -1,0 +1,23 @@
+library(sf)
+library(dplyr)
+library(giscoR)
+library(eurostat)
+##eurostat is mainly for the dataset we have used here
+year_ref <- 2013
+nuts2_IT <- gisco_get_nuts(year = year_ref, resolution = 20, nuts_level = 2, country = "Italy") %>% select(NUTS_ID, NAME_LATN)
+
+plot(st_geometry(nuts2_IT))
+# Transform the shape
+nuts2_IT_32632 <- st_transform(nuts2_IT, 32632)
+plot(st_geometry(nuts2_IT_32632)) 
+
+# Filter to select data from 2013
+disp_income <- eurostat::tgs00026 %>% filter(time == year_ref) %>% select(-time)
+
+nuts2_IT_32632_data <- nuts2_IT_32632 %>% left_join(disp_income, by = c("NUTS_ID" = "geo"))
+
+plot(nuts2_IT_32632_data[, "values"],
+     breaks = "jenks",
+     nbreaks = 10,
+     pal = hcl.colors(10),
+     main = "Choropleth map") 
