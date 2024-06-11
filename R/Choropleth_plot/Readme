@@ -1,0 +1,4 @@
+###Choropleth plot
+In choropleth plot, we can visualize the change in a variable in a geographical location.
+When using giscoR, we can select the NUTS geometries with the gisco_get_nuts function and specify the country we want to plot inside the country argument.
+In order to plot the map we can apply the st_geometry function to our data and use the plot function.
