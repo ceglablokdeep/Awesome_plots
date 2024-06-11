@@ -1,0 +1,7 @@
+library(deldir)
+
+x <- runif(50)
+y <- runif(50)
+tesselation <- deldir(x, y)
+tiles <- tile.list(tesselation)
+plot(tiles, pch = 19,border = "white", fillcol = hcl.colors(50, "Sunset"))
